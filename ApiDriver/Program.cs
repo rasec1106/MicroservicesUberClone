@@ -1,4 +1,11 @@
+using ApiDriver.dbContexts;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+//connectionString
+var connectionString = builder.Configuration.GetConnectionString("DriverDB");
+builder.Services.AddDbContext<appDbContexts>(options => options.UseSqlServer(connectionString));
 
 // Add services to the container.
 
