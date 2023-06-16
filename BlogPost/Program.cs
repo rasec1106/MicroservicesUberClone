@@ -1,21 +1,14 @@
-using ApiDriver;
-using ApiDriver.dbContexts;
-using AutoMapper;
+using BlogPost.dbContexts;
+using BlogPost.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//connectionString
-var connectionString = builder.Configuration.GetConnectionString("DriverDB");
-builder.Services.AddDbContext<appDbContexts>(options => options.UseSqlServer(connectionString));
-//mapper Driover
-IMapper mapper = MappingConfig.DriverMap().CreateMapper();
-builder.Services.AddSingleton(mapper);
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-
-
 // Add services to the container.
+var cnn = builder.Configuration.GetConnectionString("dbblog");
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(cnn));
+builder.Services.AddScoped<IPostRepository, IPostSQL>();
+///
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
